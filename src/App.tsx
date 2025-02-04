@@ -16,6 +16,10 @@ function App() {
       </main>
 
       <ToastContainer />
+
+      <footer className='py-4 bg-indigo-600'>
+        <p className="p-4 text-center text-white md:text-start"> <span className="font-bold">JMCode</span> | ©2025 - Transformando ideas en realidad.</p>
+      </footer>
     </>
   )
 }
