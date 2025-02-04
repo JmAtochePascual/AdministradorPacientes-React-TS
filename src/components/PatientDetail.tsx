@@ -1,3 +1,4 @@
+import { usePatientStore } from "../store/useStore";
 import { TPatient } from "../types"
 import { formatDate } from "../utils";
 import PatientDetailItem from "./PatientDetailItem";
@@ -7,6 +8,7 @@ type PatienDetailProps = {
 }
 
 const PatientDetail = ({ patient }: PatienDetailProps) => {
+  const { deletePatient } = usePatientStore();
   const { name, caretaker, email, date, id, symptoms } = patient;
 
   return (
@@ -17,6 +19,14 @@ const PatientDetail = ({ patient }: PatienDetailProps) => {
       <PatientDetailItem label="Email" data={email} />
       <PatientDetailItem label="Fecha" data={formatDate(date)} />
       <PatientDetailItem label="Síntomas" data={symptoms} />
+
+      <div className="">
+        <button
+          onClick={() => deletePatient(id)}
+          className="w-full p-2 text-center rounded-md text-white bg-red-500">
+          Eliminar
+        </button>
+      </div>
     </div>
   )
 }
