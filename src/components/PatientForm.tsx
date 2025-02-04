@@ -1,12 +1,15 @@
 import { useForm } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid';
 import Error from './Error'
 import { TDrafPatient } from '../types'
+import { usePatientStore } from '../store/useStore'
 
 const PatientForm = () => {
+  const { addPatient } = usePatientStore()
   const { register, handleSubmit, formState: { errors } } = useForm<TDrafPatient>()
 
   const registerPatient = (data: TDrafPatient) => {
-    console.log(data)
+    addPatient({ ...data, id: uuidv4() })
   }
 
   return (
