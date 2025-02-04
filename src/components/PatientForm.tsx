@@ -8,8 +8,7 @@ import { useEffect } from 'react';
 
 const PatientForm = () => {
   const { patients, idEditPatient, addPatient, editPatient } = usePatientStore()
-  // TODO: Extraer la funcion reset de useForm para resetear el formulario
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<TDrafPatient>();
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<TDrafPatient>();
 
   useEffect(() => {
     if (idEditPatient) {
@@ -32,7 +31,9 @@ const PatientForm = () => {
       addPatient({ ...data, id: uuidv4() })
       toast.success('Paciente Añadido')
     }
-    // TODO: Resetear el formulario
+
+    // Reset Form
+    reset()
   }
 
   return (

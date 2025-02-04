@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import { TPatient } from '../types';
 
 type TPatienState = {
@@ -11,24 +11,32 @@ type TPatienState = {
   deletePatient: (id: TPatient['id']) => void;
 };
 
-export const usePatientStore = create<TPatienState>()(devtools((set) => ({
-  patients: [],
-  idEditPatient: '',
-  addPatient: (patient) => {
-    set((state) => ({ patients: [...state.patients, patient] }));
-  },
-  setIdEditPatient: (id) => {
-    set({ idEditPatient: id });
-  },
-  editPatient: (patient) => {
-    set((state) => ({
-      patients: state.patients.map((pt) => (pt.id === patient.id ? patient : pt)),
+export const usePatientStore = create<TPatienState>()(
+  devtools(
+    persist((set) => ({
+      patients: [],
       idEditPatient: '',
-    }));
-  },
-  deletePatient: (id) => {
-    set((state) => ({
-      patients: state.patients.filter((patient) => patient.id !== id),
-    }));
-  },
-})));
+      addPatient: (patient) => {
+        set((state) => ({ patients: [...state.patients, patient] }));
+      },
+      setIdEditPatient: (id) => {
+        set({ idEditPatient: id });
+      },
+      editPatient: (patient) => {
+        set((state) => ({
+          patients: state.patients.map((pt) => (pt.id === patient.id ? patient : pt)),
+          idEditPatient: '',
+        }));
+      },
+      deletePatient: (id) => {
+        set((state) => ({
+          patients: state.patients.filter((patient) => patient.id !== id),
+        }));
+      },
+    }),
+      {
+        name: 'patient-storage',
+      }
+    )
+  )
+);
