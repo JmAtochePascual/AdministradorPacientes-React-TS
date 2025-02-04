@@ -3,13 +3,33 @@ import { v4 as uuidv4 } from 'uuid';
 import Error from './Error'
 import { TDrafPatient } from '../types'
 import { usePatientStore } from '../store/useStore'
+import { useEffect } from 'react';
 
 const PatientForm = () => {
-  const { addPatient } = usePatientStore()
-  const { register, handleSubmit, formState: { errors } } = useForm<TDrafPatient>()
+  const { patients, idEditPatient, addPatient, editPatient } = usePatientStore()
+  // TODO: Extraer la funcion reset de useForm para resetear el formulario
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<TDrafPatient>();
+
+  useEffect(() => {
+    if (idEditPatient) {
+      const activePatient = patients.filter(patient => patient.id === idEditPatient)[0];
+
+      setValue('name', activePatient.name)
+      setValue('caretaker', activePatient.caretaker)
+      setValue('email', activePatient.email)
+      setValue('date', activePatient.date)
+      setValue('symptoms', activePatient.symptoms)
+    }
+  }, [idEditPatient, patients, setValue])
 
   const registerPatient = (data: TDrafPatient) => {
-    addPatient({ ...data, id: uuidv4() })
+
+    if (idEditPatient) {
+      editPatient({ ...data, id: idEditPatient })
+    } else {
+      addPatient({ ...data, id: uuidv4() })
+    }
+    // TODO: Resetear el formulario
   }
 
   return (
@@ -119,7 +139,7 @@ const PatientForm = () => {
 
         <input
           type="submit"
-          value='Guardar Paciente'
+          value={idEditPatient ? 'Guardar Cambios' : 'Añadir Paciente'}
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors" />
       </form>
     </div>
