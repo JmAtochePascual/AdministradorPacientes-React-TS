@@ -6,9 +6,13 @@ function App() {
 
   return (
     <>
-      <header className="mb-10 py-8">
+      <header className="mb-4 pt-8">
         <h1 className="max-w-md mx-auto text-center text-3xl font-black md:text-4xl lg:text-5xl lg:max-w-lg">Seguimiento de Pacientes <span className="text-indigo-600">Veterinaria</span></h1>
       </header>
+
+      <p className='max-w-md mx-auto mb-10 text-center text-gray-500'>
+        Administra tus pacientes de forma sencilla y eficiente. Haz seguimiento de sus síntomas y propietarios.
+      </p>
 
       <main className="w-11/12 max-w-5xl mx-auto grid gap-4 md:grid-cols-2">
         <PatientForm />

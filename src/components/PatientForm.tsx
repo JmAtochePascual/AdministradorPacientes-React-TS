@@ -38,12 +38,6 @@ const PatientForm = () => {
 
   return (
     <div>
-      <h2 className="font-black text-3xl text-center">Seguimiento Pacientes</h2>
-
-      <p className="text-lg mt-5 text-center mb-10">
-        Añade Pacientes y <span className="text-indigo-600 font-bold">Administralos</span>
-      </p>
-
       <form
         noValidate
         onSubmit={handleSubmit(registerPatient)}
