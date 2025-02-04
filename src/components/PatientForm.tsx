@@ -1,5 +1,13 @@
+import { useForm } from 'react-hook-form'
+import Error from './Error'
+import { TDrafPatient } from '../types'
 
 const PatientForm = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<TDrafPatient>()
+
+  const registerPatient = (data: TDrafPatient) => {
+    console.log(data)
+  }
 
   return (
     <div>
@@ -11,6 +19,7 @@ const PatientForm = () => {
 
       <form
         noValidate
+        onSubmit={handleSubmit(registerPatient)}
         className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
         <div className="mb-5">
           <label
@@ -24,7 +33,10 @@ const PatientForm = () => {
             type="text"
             placeholder="Nombre del Paciente"
             autoComplete="off"
+            {...register('name', { required: 'El nombre del paciente es requerido' })}
             className="w-full p-3 border border-gray-300 rounded-md outline-none" />
+
+          {errors?.name?.message && <Error message={errors.name.message} />}
         </div>
 
         <div className="mb-5">
@@ -39,7 +51,10 @@ const PatientForm = () => {
             type="text"
             placeholder="Nombre del Propietario"
             autoComplete="off"
+            {...register('caretaker', { required: 'El nombre del propietario es requerido' })}
             className="w-full p-3 border border-gray-300 rounded-md outline-none" />
+
+          {errors?.caretaker?.message && <Error message={errors.caretaker.message} />}
         </div>
 
         <div className="mb-5">
@@ -54,7 +69,16 @@ const PatientForm = () => {
             type="email"
             placeholder="Email de Registro"
             autoComplete="off"
+            {...register("email", {
+              required: "El Email es obligatorio",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Email No Válido'
+              }
+            })}
             className="w-full p-3 border border-gray-300 rounded-md outline-none" />
+
+          {errors?.email?.message && <Error message={errors.email.message} />}
         </div>
 
         <div className="mb-5">
@@ -66,7 +90,10 @@ const PatientForm = () => {
           <input
             id="date"
             type="date"
+            {...register('date', { required: 'La fecha es obligatoria' })}
             className="w-full p-3 border border-gray-300 rounded-md outline-none" />
+
+          {errors?.date?.message && <Error message={errors.date.message} />}
         </div>
 
         <div className="mb-5">
@@ -79,9 +106,12 @@ const PatientForm = () => {
             id="symptoms"
             placeholder="Síntomas del paciente"
             autoComplete="off"
+            {...register('symptoms', { required: 'Los síntomas son requeridos' })}
             className="w-full p-3 border border-gray-300 rounded-md outline-none">
 
           </textarea>
+
+          {errors?.symptoms?.message && <Error message={errors.symptoms.message} />}
         </div>
 
         <input
