@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 import Error from './Error'
 import { TDrafPatient } from '../types'
 import { usePatientStore } from '../store/useStore'
@@ -25,9 +26,11 @@ const PatientForm = () => {
   const registerPatient = (data: TDrafPatient) => {
 
     if (idEditPatient) {
-      editPatient({ ...data, id: idEditPatient })
+      editPatient({ ...data, id: idEditPatient });
+      toast.success('Paciente Actualizado')
     } else {
       addPatient({ ...data, id: uuidv4() })
+      toast.success('Paciente Añadido')
     }
     // TODO: Resetear el formulario
   }
